@@ -67,7 +67,6 @@ interface AppProviderProps {
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // Estado
   const [setores, setSetores] = useState<Setor[]>([]);
@@ -75,6 +74,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [animais, setAnimais] = useState<Animal[]>([]);
   const [checks, setChecks] = useState<Check[]>([]);
   const [currentCheck, setCurrentCheck] = useState<Check | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   const firebaseUserToUser = (firebaseUser: FirebaseUser): User => {
     return {
