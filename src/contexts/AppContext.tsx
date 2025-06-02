@@ -1,6 +1,6 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Animal, Baia, Setor, Check, StatusChecagem, User } from '@/types';
+import { Animal, Baia, Setor, Check, StatusChecagem } from '@/types';
 import { animalService, baiaService, setorService, checkService } from '@/services/firestore';
 import { useAuth } from './AuthContext';
 
