@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getAuth, signOut } from "firebase/auth";
+import { useAuth } from '@/contexts/AuthContext';
 
 interface MainLayoutProps {
   children?: ReactNode;
@@ -10,21 +10,13 @@ interface MainLayoutProps {
 const MainLayout = ({ children }: MainLayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const auth = getAuth();
 
   const isActive = (path: string) => {
     return location.pathname.startsWith(path);
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      navigate('/login'); // Redireciona para a tela de login após sair
-    } catch (error) {
-      // Trate o erro se necessário
-      console.error("Erro ao sair:", error);
-    }
-  };
+  const { signOut } = useAuth();
+
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
@@ -50,7 +42,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           </TabsList>
         </Tabs>
         <button
-          onClick={handleSignOut}
+          onClick={signOut}
           className="ml-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
         >
           Sair
