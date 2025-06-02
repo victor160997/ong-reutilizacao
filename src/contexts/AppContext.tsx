@@ -2,11 +2,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Animal, Baia, Setor, Check, StatusChecagem, User } from '@/types';
 import { animalService, baiaService, setorService, checkService } from '@/services/firestore';
-import { auth } from '@/lib/firebase';
-import {
-  User as FirebaseUser,
-  onAuthStateChanged
-} from 'firebase/auth';
+import { useAuth } from './AuthContext';
 
 interface AppContextType {
   // Estado
@@ -74,28 +70,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const [animais, setAnimais] = useState<Animal[]>([]);
   const [checks, setChecks] = useState<Check[]>([]);
   const [currentCheck, setCurrentCheck] = useState<Check | null>(null);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  const firebaseUserToUser = (firebaseUser: FirebaseUser): User => {
-    return {
-      id: firebaseUser.uid,
-      email: firebaseUser.email!,
-      displayName: firebaseUser.displayName
-    };
-  };
-
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(firebaseUserToUser(user));
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    return unsubscribe;
-  }, []);
+  const { currentUser } = useAuth();
 
   // Loading states
   const [loading, setLoading] = useState({
